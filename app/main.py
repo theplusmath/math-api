@@ -4,6 +4,11 @@ from app.core import normalize_latex
 
 app = FastAPI()
 
+# ✅ 루트 페이지 응답 추가 (브라우저 확인용)
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to math-api"}
+
 class LatexInput(BaseModel):
     latex: str
 
