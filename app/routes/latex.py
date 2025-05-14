@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from latex2sympy import latex2sympy, get_default_conf
+from latex2sympy import latex2sympy
 
 router = APIRouter()
 
@@ -10,8 +10,7 @@ class LatexInput(BaseModel):
 @router.post("/parse")
 async def parse_latex_api(data: LatexInput):
     try:
-        conf = get_default_conf()
-        expr = latex2sympy(data.latex, conf)
+        expr = latex2sympy(data.latex)  # ✅ get_default_conf 제거
         return {
             "result": str(expr),
             "structure": str(type(expr))
