@@ -2,3 +2,4 @@ fastapi
 uvicorn
 sympy
 python-multipart
+latex2sympy
