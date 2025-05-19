@@ -1,18 +1,36 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from app.core import normalize_latex
+from sympy import sympify, latex, srepr
+import hashlib
 
-app = FastAPI()
+def normalize_latex(latex_str):
+    try:
+        expr = sympify(latex_str)
 
-# ✅ 루트 페이지 응답 추가 (브라우저 확인용)
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to math-api"}
+        # 1. hash
+        hash_value = hashlib.sha256(latex_str.encode()).hexdigest()
 
-class LatexInput(BaseModel):
-    latex: str
+        # 2. main_formula_tree (간단히 srepr로 대체 가능)
+        formula_tree = srepr(expr)
 
-@app.post("/normalize")
-async def normalize_formula(data: LatexInput):
-    hash_result = normalize_latex(data.latex)
-    return {"hash": hash_result}
+        # 3. keywords (기초 버전)
+        keywords = list({type(atom).__name__ for atom in expr.atoms()})
+
+        # 4. original_latex
+        original_latex = latex_str
+
+        # 5. normalized_latex
+        normalized_latex = latex(expr)
+
+        # 6. sympy_expr
+        sympy_expr = srepr(expr)
+
+        return {
+            "hash": hash_value,
+            "main_formula_tree": formula_tree,
+            "formula_keywords": keywords,
+            "original_latex": original_latex,
+            "normalized_latex": normalized_latex,
+            "sympy_expr": sympy_expr
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
