@@ -3,4 +3,4 @@ uvicorn
 sympy
 python-multipart
 latex2sympy
-antlr4-python3-runtime>=4.9.3,<4.11  # force reinstall
+antlr4-python3-runtime>=4.9.3,<4.11  # force install render
