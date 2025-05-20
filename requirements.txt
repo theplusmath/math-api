@@ -4,3 +4,4 @@ sympy
 python-multipart
 latex2sympy
 antlr4-python3-runtime==4.9.3
+# Force rebuild to apply antlr4
