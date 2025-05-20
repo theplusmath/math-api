@@ -3,11 +3,12 @@ from sympy.parsing.latex import parse_latex
 import hashlib
 import re
 
-# $~, $$~, \[ \], \(\), \displaystyle 등을 제거
+# LaTeX 껍데기 제거 함수
 def clean_latex_wrappers(latex_str):
     latex_str = re.sub(r"\$\$|\$|\\\[|\\\]|\\\(|\\\)|\\displaystyle", "", latex_str)
     return latex_str.strip()
 
+# 메인 파서 함수
 def normalize_latex(latex_str):
     try:
         cleaned = clean_latex_wrappers(latex_str)
